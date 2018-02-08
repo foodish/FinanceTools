@@ -4,12 +4,7 @@
 # @Author  : foodish
 # @Email   : xbj1900@gmail.com
 # @Link    : https://foodish.github.io
-# !/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Date    : 2018-02-05
-# @Author  : foodish
-# @Email   : xbj1900@gmail.com
-# @Link    : https://foodish.github.io
+# 下载巨潮年报等；为便于pyinstaller打包未采用第三方模块如requests
 import urllib.request
 import urllib.parse
 import json
