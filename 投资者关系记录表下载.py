@@ -17,28 +17,41 @@ from tqdm import tqdm
 base_url = 'http://www.cninfo.com.cn'
 tzz_url = 'http://www.cninfo.com.cn/search/tzzfulltext.jsp'
 headers = {'User-Agent': 'Mozilla/5.0'}
-pattern = re.compile(
+pattern_code = re.compile(pattern='[0-9]{6}')
+pattern_url = re.compile(
     r'<td class="qsgg"><a href="(.*?)" target=new>(.*?)</a>', re.S)
 pattern_file = re.compile(r'.(DOC|PDF|DOCX|doc|pdf|docx)', re.S)
 
 
-def download(secCode='002415', pageNo='1'):
+def get_stock_code():
+    input_result = input('请输入一个六位数股票代码：\n')
+    while True:
+        if pattern_code.match(input_result) and len(input_result) == 6:
+            secCode = input_result
+            # print('输入成功，开始下载。。。。。。')
+            break
+        else:
+            input_result = input('输入错误，请重新输入:')
+    return secCode
+
+
+def download(secCode='002415', today='2018-02-06', pageNo='1'):
     params = {
         'orderby': 'date11',
         'startTime': '2010-01-01',
-        'endTime': '2018-02-06',
+        'endTime': today,
         'stockCode': secCode,
         'pageNo': pageNo
     }
     r = requests.post(tzz_url, headers=headers, params=params)
-    results = re.findall(pattern, r.text)
+    results = re.findall(pattern_url, r.text)
     for adjUrl, name in tqdm(results):
-        time.sleep(500)
+        # time.sleep(500)
         download_url = base_url + adjUrl
         fileType = pattern_file.search(adjUrl).group()
         # fileType = adjUrl.split('/')[-1]
         # fileType = fileType.split('?')[0][-3:]
-        print(download_url)
+        # print(download_url)
         r = requests.get(download_url, headers=headers)
         if os.path.exists(r'./tzz_data'):
             pass
@@ -46,6 +59,7 @@ def download(secCode='002415', pageNo='1'):
             os.mkdir(r'./tzz_data')
         parts = ['tzz_data/', name, fileType]
         file_path = ''.join(parts)
+        print('正在下载：', file_path[9:])
         with open(file_path, 'wb') as f:
             if os.path.exists(file_path):
                 pass
@@ -54,9 +68,11 @@ def download(secCode='002415', pageNo='1'):
 
 
 def main():
+    code = get_stock_code()
+    today = time.strftime("%Y-%m-%d")
     for i in range(1, 4):
         try:
-            download('002415', str(i))
+            download(code, today, str(i))
         except:
             pass
 
