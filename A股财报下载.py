@@ -4,7 +4,7 @@
 # @Author  : foodish
 # @Email   : xbj1900@gmail.com
 # @Link    : https://foodish.github.io
-# 下载巨潮年报等；为便于pyinstaller打包未采用第三方模块如requests
+# 下载巨潮年报等；为便于pyinstaller打包未采用第三方模块如requests;打包时采用英文名
 import urllib.request
 import urllib.parse
 import json
