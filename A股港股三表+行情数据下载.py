@@ -5,6 +5,8 @@
 # @File    : A股港股三表+行情数据下载.py
 # 从巨潮下载A股、港股三表数据及行情
 import requests
+import os
+import datetime
 # import time
 
 
@@ -90,21 +92,34 @@ def query(url, keyword):
         print('网络连接错误！')
 
 
+def create_folder():
+    # if os.path.exists(r'./data'):
+    if os.path.exists(r'./data'):
+        pass
+    else:
+        # os.mkdir(r'./data')
+        os.mkdir(r'./data')
+    return
+
+
 def download(query_data, data_type):
     startTime, orgId, category, market, code, zwjc = query_data
+    maxYear = datetime.datetime.now().year
+    # print(maxYear)
     params = {
         'code'   : code,
         'market' : market,
         'orgid'  : orgId,
         'type'   : data_type,  # fzb负债表;lrb利润表；llb现金流量表;hq行情
         'minYear': startTime,
-        'maxYear': '2018',
+        'maxYear': maxYear,
     }
     r = requests.post(download_url, data=params, headers=headers)
     if r.status_code == 200:
         # print(r.headers)
         parts = [code, '_', zwjc, '_', data_type, '_', startTime, '_', '2018', '.zip']
         filename = ''.join(parts)
+        print('正在下载：', filename[5:])
         with open('data/' + filename, 'wb') as f:
             f.write(r.content)
     else:
@@ -126,6 +141,7 @@ def main():
     stock_code = get_stock_code()
     query_info = query(stock_query_url, stock_code)
     print('开始下载', query_info[5], '的三表和行情数据')
+    create_folder()
     # ask_for_type = input()
     # data_type = get_data_type()
     data_types = ['lrb', 'fzb', 'llb', 'hq']
