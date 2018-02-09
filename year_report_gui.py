@@ -23,21 +23,42 @@ time2 = 0
 time3 = 0
 time4 = 0
 
-task = tkinter.Tk()
 
-task.title('A股年报下载器')
-# task.geometry('800x600')
+def year_report_gui():
+    global entry, show_info, task
+    task = tkinter.Tk()
+    task.title('A股年报下载器')
+    task.geometry('600x400')
+    # task.geometry('800x600')
 
-label = tkinter.Label(task, text = '股票代码：')
-label.grid(row = 0, sticky = tkinter.W)
+    label = tkinter.Label(task, text = '股票代码：')
+    label.grid(row = 0, sticky = tkinter.W)
 
-entry = tkinter.Entry(task)
-entry.grid(row = 0, column = 1, sticky = tkinter.E)
+    entry = tkinter.Entry(task)
+    entry.grid(row = 0, column = 1, sticky = tkinter.E)
 
-show_info = tkinter.Label(task, text = '')
-show_info.grid(row = 4, column = 0, sticky = tkinter.W)
+    show_info = tkinter.Label(task, text = '')
+    show_info.grid(row = 4, column = 0, sticky = tkinter.W)
+
+    label = tkinter.Label(task, text = '财报类型：')
+    label.grid(row = 1, sticky = tkinter.W)
+
+    check_nb = tkinter.Checkbutton(task, text = '年报', command = select_nb)
+    check_nb.grid(row = 2, column = 0)
+    check_bnb = tkinter.Checkbutton(task, text = '半年报', command = select_bnb)
+    check_bnb.grid(row = 2, column = 1)
+    check_yjb = tkinter.Checkbutton(task, text = '一季报', command = select_yjb)
+    check_yjb.grid(row = 3, column = 0)
+    check_sjb = tkinter.Checkbutton(task, text = '三季报', command = select_sjb)
+    check_sjb.grid(row = 3, column = 1)
+
+    button = tkinter.Button(task, text='开始下载', command=main)
+    button.grid(row=4, column=1, sticky=tkinter.E)
+    task.mainloop()
+
 
 def get_stock_code():
+    global entry, show_info
     s1 = entry.get()
     t1 = len(s1)
     if len(s1) == 6:
@@ -85,20 +106,6 @@ def select_sjb():
     else:
         time4 += 1
         return ''
-
-
-label = tkinter.Label(task, text = '财报类型：')
-label.grid(row = 1, sticky = tkinter.W)
-
-
-check_nb = tkinter.Checkbutton(task, text = '年报', command = select_nb)
-check_nb.grid(row = 2, column = 0)
-check_bnb = tkinter.Checkbutton(task, text = '半年报', command = select_bnb)
-check_bnb.grid(row = 2, column = 1)
-check_yjb = tkinter.Checkbutton(task, text = '一季报', command = select_yjb)
-check_yjb.grid(row = 3, column = 0)
-check_sjb = tkinter.Checkbutton(task, text = '三季报', command = select_sjb)
-check_sjb.grid(row = 3, column = 1)
 
 
 def get_category():
@@ -153,6 +160,7 @@ def get_download_url(stock_code, category='category_ndbg_szsh', pageNum = '1', p
 
 
 def change_schedule(now_schedule, all_schedule):
+    global task
     frame = tkinter.Frame(task).grid(row=5, column=0)
     canvas = tkinter.Canvas(frame, width=120, height=30, bg='white')
     out_rec = canvas.create_rectangle(5, 5, 105, 25, outline='blue', width=1)
@@ -212,12 +220,8 @@ def main():
     # print('====下载完毕====')
 
 
-button = tkinter.Button(task, text='开始下载', command=main)
-button.grid(row=4, column=1, sticky=tkinter.E)
-
-
 if __name__ == '__main__':
-    task.mainloop()
+    year_report_gui()
     # main()
     # test()
     # input()
