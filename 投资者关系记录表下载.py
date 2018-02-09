@@ -50,12 +50,16 @@ def get_download_info(secCode='002415', today='2018-02-06', pageNo='1'):
 
 
 def create_folder():
-    # if os.path.exists(r'./data'):
-    if os.path.exists(r'./ttz_data'):
+    try:
+        os.mkdir('/tzz_data')
+    except:
         pass
-    else:
-        # os.mkdir(r'./data')
-        os.mkdir(r'./tzz_data')
+    # if os.path.exists(r'./data'):
+    # if os.path.exists(r'./ttz_data'):
+    #     pass
+    # else:
+    #     # os.mkdir(r'./data')
+    #     os.mkdir(r'./tzz_data')
     return
 
 
@@ -97,5 +101,5 @@ def test():
 
 
 if __name__ == '__main__':
-    # main()
-    test()
+    main()
+    # test()
