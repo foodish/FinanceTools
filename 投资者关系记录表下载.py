@@ -11,7 +11,7 @@ import requests
 import re
 import os
 import time
-from tqdm import tqdm
+# from tqdm import tqdm
 
 
 base_url = 'http://www.cninfo.com.cn'
@@ -35,7 +35,7 @@ def get_stock_code():
     return secCode
 
 
-def download(secCode='002415', today='2018-02-06', pageNo='1'):
+def get_download_info(secCode='002415', today='2018-02-06', pageNo='1'):
     params = {
         'orderby': 'date11',
         'startTime': '2010-01-01',
@@ -45,37 +45,57 @@ def download(secCode='002415', today='2018-02-06', pageNo='1'):
     }
     r = requests.post(tzz_url, headers=headers, params=params)
     results = re.findall(pattern_url, r.text)
-    for adjUrl, name in tqdm(results):
-        # time.sleep(500)
+
+    return results
+
+
+def create_folder():
+    # if os.path.exists(r'./data'):
+    if os.path.exists(r'./ttz_data'):
+        pass
+    else:
+        # os.mkdir(r'./data')
+        os.mkdir(r'./tzz_data')
+    return
+
+
+def start_download(results):
+    for adjUrl, name in results:
         download_url = base_url + adjUrl
-        fileType = pattern_file.search(adjUrl).group()
-        # fileType = adjUrl.split('/')[-1]
-        # fileType = fileType.split('?')[0][-3:]
-        # print(download_url)
         r = requests.get(download_url, headers=headers)
-        if os.path.exists(r'./tzz_data'):
-            pass
-        else:
-            os.mkdir(r'./tzz_data')
+        print(download_url)
+        fileType = pattern_file.search(adjUrl).group()
         parts = ['tzz_data/', name, fileType]
         file_path = ''.join(parts)
-        print('正在下载：', file_path[9:])
-        with open(file_path, 'wb') as f:
-            if os.path.exists(file_path):
-                pass
-            else:
+        print(r.status_code)
+        if r.status_code == 200:
+            print(r.headers)
+            print('正在下载：', file_path[9:])
+            with open(file_path, 'wb') as f:
                 f.write(r.content)
 
 
 def main():
     code = get_stock_code()
     today = time.strftime("%Y-%m-%d")
+    create_folder()
     for i in range(1, 4):
         try:
-            download(code, today, str(i))
+            results = get_download_info(code, today, str(i))
+            start_download(results)
         except:
             pass
 
 
+def test():
+    code = '002508'
+    today = '2018-02-08'
+
+    for i in range(1, 4):
+        results = get_download_info(code, today, '1')
+        start_download(results)
+
+
 if __name__ == '__main__':
-    main()
+    # main()
+    test()
