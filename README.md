@@ -4,9 +4,13 @@
 
 从巨潮批量下载A股财报，可选年报、半年报、一季报和三季报等；
 
-下面是exe程序，Windows可直接运行。
+- 下面是exe程序，Windows可直接运行。
 
-[A股财报下载器0.1.0](https://github.com/foodish/FianaceTools/files/1706531/A.0.1.0.zip)
+    [A股财报下载器0.1.0](https://github.com/foodish/FinanceTools/releases/tag/0.1.0)
+
+- 图形界面程序-GUI
+
+    [A股财报下载器-图形界面版](https://github.com/foodish/FinanceTools/releases/tag/0.2.0)
 
 ## 2. A股港股三表+行情数据下载
 
