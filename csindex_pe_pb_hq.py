@@ -9,6 +9,7 @@ import requests
 import csv
 import re
 import os
+from datetime import datetime
 
 headers = {'User-Agent': 'Mozilla 5.0'}
 pattern = re.compile(r'"(.*?)"', re.S)
@@ -29,6 +30,16 @@ def create_folder():
         pass
 
 
+def get_is_open():
+    csv_dict = {}
+    today = datetime.strftime(datetime.today(), '%Y-%m-%d')
+    with open(r'data/trade_cal_2018.csv') as f:
+        for line in f:
+            line_date, is_open = line.strip().split(',')
+            csv_dict[line_date] = is_open
+    return csv_dict[today]
+    
+    
 def download_index_info_first(url, name, columns):
     r = requests.get(url, headers=headers)
     if r.status_code == 200:
@@ -78,4 +89,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    if get_is_open() == 1:
+        main()
