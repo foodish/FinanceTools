@@ -73,8 +73,8 @@ def main():
     create_folder()
     # download_index_info_first(url_gz, name_gz, columns_gz)
     # download_index_info_first(url_hq, name_hq, columns_hq)
-    download_index_info_first(url_gz, name_gz)
-    download_index_info_first(url_hq, name_hq)
+    download_index_info(url_gz, name_gz)
+    download_index_info(url_hq, name_hq)
 
 
 if __name__ == '__main__':
