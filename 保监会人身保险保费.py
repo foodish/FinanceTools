@@ -63,12 +63,20 @@ def first_download():
         get_url_and_doanload(html)
 
 
-def main():
-    create_folder()
+def download():
     html = get_page(first_url)
     get_url_and_doanload(html)
+
+
+def main():
+    if not os.path.exists(r'/data/保监会人身保险保费收入'):
+        first_download()
+    else:
+        download()
+
 
 
 if __name__ == '__main__':
     # first_download()
     main()
+    
