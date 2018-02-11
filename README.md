@@ -24,3 +24,7 @@
 如下为海康的
 
 [海康威视投资者关系记录](http://www.cninfo.com.cn/information/companyinfo_n.html?fulltext?szsme002415)
+
+## 4. 获取中证指数估值行情
+
+获取中证指数官网上的估值和行情数据。
