@@ -17,8 +17,7 @@ url_gz = 'http://www.csindex.com.cn/data/js/show_zsgz.js?str=ro84Vujt3qqOm29t'
 url_hq = 'http://www.csindex.com.cn/data/js/show_zsbx.js?str=tHmi5QqVH3e7EG'
 name_gz = 'zsgz.csv'
 name_hq = 'zshq.csv'
-columns_gz = ('更新日期', '指数简称', '静态市盈率', '滚动市盈率', '市净率', '股息率',
-              '去年底静态市盈率', '去年底滚动市盈率', '去年底市净率')
+columns_gz = ('更新日期', '指数名称', '静态市盈率', '滚动市盈率', '市净率', '去年底静态市盈率', '去年底滚动市盈率', '去年底市净率', '指数简称', '股息率')
 columns_hq = ('更新日期', '指数简称', '收盘', '日涨跌', '日涨跌幅（%）', '今年以来涨跌',
               '今年以来涨跌幅（%）', '成交额较昨日增减（亿元）', '成交额较昨日增减（%）')
 
@@ -89,5 +88,9 @@ def main():
 
 
 if __name__ == '__main__':
-    if get_is_open() == 1:
+    s = get_is_open()
+    if s == '1':
         main()
+        print('done!'')
+    else:
+        print('今天不开市!')
