@@ -18,7 +18,7 @@ def get_data_and_save(year_month):
 #print(r.text)
     dfs=pd.read_html(r.text)
     for index, df in enumerate(dfs, 1):
-        df.to_csv('data/pingan/%s_%s.csv' % (year_month, index), index=False, header=False)
+        df.to_csv('data/pingan/%s_%s.csv' % (year_month, index), index=False, header=False, encoding='utf_8_sig')
         
 
 def start():

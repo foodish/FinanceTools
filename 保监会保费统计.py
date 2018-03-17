@@ -63,7 +63,7 @@ def get_download_url(html):
 def html2csv(html, name, skip_rows=5):
     dfs = pd.read_html(html, attrs={'id': 'tab_content'}, skiprows=skip_rows)
     df = dfs[0]
-    df.to_csv(name)
+    df.to_csv(name,  index=False, header=False, encoding='utf_8_sig')
 
 
 def create_folder(folder_path):
@@ -108,7 +108,7 @@ def download(url, folder_path, skiprows):
 
 
 def main():
-    download_type = input('输入保费统计类型：\n1:人身保险；\n2：财产保险；\n3：地区\n4：养老保险')
+    download_type = input('输入保费统计类型：\n1:人身保险；\n2：财产保险；\n3：地区\n4：养老保险\n')
     folder_name = all_types[download_type]
     skip_rows = skiprows[download_type]
     folder_path = './data/保监会保费统计/' + folder_name
@@ -117,9 +117,9 @@ def main():
     if not os.path.exists(folder_path):
         first_download(urls, folder_path, skip_rows)
     else:
-        download(url, folder_path, skip_rows)
+        first_download(urls, folder_path, skip_rows)
+        # download(url, folder_path, skip_rows)
 
 
 if __name__ == '__main__':
-    # first_download()
     main()
